@@ -1,0 +1,96 @@
+import java.util.*;
+
+public class Grafo {
+
+    Scanner sc = new Scanner(System.in);
+    Map<String, List<String>> grafo;
+
+
+    public Grafo() {
+        grafo = new HashMap<>();
+    }
+
+    public void adicionarVertice(String vertice){
+        grafo.putIfAbsent(vertice, new ArrayList<>());
+    }
+    public void adicionarAresta(String origem, String destino){
+        if (grafo.containsKey(origem)){
+            grafo.get(origem).add(destino);
+            grafo.get(destino).add(origem);
+        }else {
+            System.out.println("Vertice não encontrado");
+        }
+    }
+
+    public void exibir(){
+        for (String vertices: grafo.keySet()){
+            System.out.println(vertices + " ->" + grafo.get(vertices));
+        }
+    }
+    public void exibirVizinho(String vertice){
+        System.out.println("----------VIZINHO DE " + vertice+ " -----------");
+        if (grafo.containsKey(vertice)){
+            System.out.println(vertice + "->" + grafo.get(vertice));
+        }
+    }
+    public void verificarLigaçao(String origem, String destino){
+        if (grafo.get(origem).contains(destino)){
+            System.out.println("Há ligação entre " + origem + " e " + destino);
+
+        }
+    }
+    public void removerVertice(String vertice){
+        if (grafo.containsKey(vertice)){
+            for (String v : grafo.keySet()){
+                grafo.get(v).remove(vertice);
+            }
+            grafo.remove(vertice);
+        }else {
+            System.out.println("Não Existe esse vertice!");
+        }
+    }
+    public void contarVerticesArestas(){
+        int numVertices = grafo.size();
+        int numArestas = 0;
+        for (List<String> aresta: grafo.values()){
+            numArestas += aresta.size();
+        }
+        numArestas = numArestas /2;
+
+        System.out.println("Vertices: " + numVertices);
+        System.out.println("Arestas: " + numArestas);
+    }
+    public void verificarVizinho(){
+        System.out.println("Vertice sem vizinhos");
+        for (String v : grafo.keySet()){
+            if (grafo.get(v).isEmpty()){
+                System.out.println("-> " + v);
+            }
+        }
+    }
+
+
+public static void main(String[] args) {
+
+    Grafo grafo = new Grafo();
+
+    grafo.adicionarVertice("A");
+    grafo.adicionarVertice("B");
+    grafo.adicionarVertice("C");
+    grafo.adicionarVertice("D");
+
+
+    grafo.adicionarAresta("A","C");
+    grafo.adicionarAresta("C","D");
+
+    grafo.adicionarAresta("D","A");
+
+    grafo.exibir();
+    grafo.exibirVizinho("A");
+    System.out.println("----------- Adjacente Atualizado! ");
+    grafo.exibir();
+    grafo.contarVerticesArestas();
+    System.out.println("---------------");
+    grafo.verificarVizinho();
+}
+    }
